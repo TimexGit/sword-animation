@@ -1,2 +1,4 @@
 node_modules/
 frames/
+.cache/
+out/qa/

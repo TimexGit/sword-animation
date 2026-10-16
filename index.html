@@ -2,29 +2,47 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<title>Sword Swing</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Sword Swing — 5s · 1920×1080 · 30fps</title>
 <style>
-  html, body { margin:0; padding:0; background:#000; height:100%; overflow:hidden; }
-  canvas { display:block; width:100vw; height:100vh; }
+  :root { color-scheme: dark; }
+  html, body { margin: 0; padding: 0; height: 100%; background: #05070c; overflow: hidden; }
+  body { display: flex; align-items: center; justify-content: center;
+         font: 12px/1.4 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; color: #9fb0cc; }
+  #stage { position: relative; width: 100vw; height: 56.25vw; max-height: 100vh; max-width: 177.78vh;
+           box-shadow: 0 30px 90px rgba(0,0,0,.8); background: #000; }
+  canvas { display: block; width: 100%; height: 100%; }
+  #hud { position: absolute; left: 0; right: 0; bottom: 0; padding: 10px 14px 12px;
+         display: flex; gap: 12px; align-items: center;
+         background: linear-gradient(to top, rgba(4,6,12,.86), rgba(4,6,12,0));
+         opacity: 0; transition: opacity .25s; }
+  #stage:hover #hud, #hud.on { opacity: 1; }
+  button { background: #16203a; color: #cfe0ff; border: 1px solid #2a3c63; border-radius: 6px;
+           padding: 5px 11px; cursor: pointer; font: inherit; }
+  button:hover { background: #1d2a4c; }
+  button.primary { background: #23407a; border-color: #3d63ad; }
+  input[type=range] { flex: 1; accent-color: #6f9dff; height: 3px; }
+  .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11px; color: #7d90b3; }
+  #tag { position: absolute; top: 12px; left: 14px; font-size: 11px; letter-spacing: .14em;
+         text-transform: uppercase; color: #6c7f a6; color: #6c7fa6; opacity: .75; }
+  #boot { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+          background: #05070c; color: #7d90b3; transition: opacity .4s; }
 </style>
 </head>
 <body>
-<canvas id="c" width="1920" height="1080"></canvas>
-<audio id="a" src="audio/soundtrack.wav" preload="auto"></audio>
-<script src="src/sword.js"></script>
-<script>
-  const canvas = document.getElementById('c');
-  const ctx = canvas.getContext('2d');
-  const audio = document.getElementById('a');
-  const D = window.SwordAnim.DURATION;
-  let start = null;
-  function loop(ts) {
-    if (start === null) { start = ts; try { audio.play(); } catch(e){} }
-    const t = ((ts - start) / 1000) % D;
-    window.SwordAnim.drawFrame(ctx, t);
-    requestAnimationFrame(loop);
-  }
-  requestAnimationFrame(loop);
-</script>
+  <div id="stage">
+    <canvas id="view" width="1920" height="1080"></canvas>
+    <div id="tag">Sword Swing · 1920×1080 · 30 fps · procedural</div>
+    <div id="hud">
+      <button id="play" class="primary">▶ Play</button>
+      <button id="loop" class="on">Loop: on</button>
+      <button id="dbg">Debug: off</button>
+      <input id="scrub" type="range" min="0" max="4.999" step="0.001" value="0" />
+      <span class="mono" id="tcode">0.000s · frame 0</span>
+      <span class="mono" id="fps">—</span>
+    </div>
+    <div id="boot">building scene…</div>
+  </div>
+  <script type="module" src="./src/main.js"></script>
 </body>
 </html>
