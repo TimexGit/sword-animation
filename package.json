@@ -1,0 +1,15 @@
+{
+  "name": "sword-animation",
+  "version": "1.0.0",
+  "private": true,
+  "description": "5s sword swing animation (16:9, 30fps) rendered to MP4",
+  "scripts": {
+    "render": "node render.mjs",
+    "render:playwright": "node render-playwright.mjs",
+    "contact": "node -e \"console.log('use ffmpeg contact sheet')\""
+  },
+  "devDependencies": {
+    "@napi-rs/canvas": "^1.0.0",
+    "playwright": "^1.49.0"
+  }
+}
