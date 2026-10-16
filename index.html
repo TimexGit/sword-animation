@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Sword Swing</title>
+<style>
+  html, body { margin:0; padding:0; background:#000; height:100%; overflow:hidden; }
+  canvas { display:block; width:100vw; height:100vh; }
+</style>
+</head>
+<body>
+<canvas id="c" width="1920" height="1080"></canvas>
+<audio id="a" src="audio/soundtrack.wav" preload="auto"></audio>
+<script src="src/sword.js"></script>
+<script>
+  const canvas = document.getElementById('c');
+  const ctx = canvas.getContext('2d');
+  const audio = document.getElementById('a');
+  const D = window.SwordAnim.DURATION;
+  let start = null;
+  function loop(ts) {
+    if (start === null) { start = ts; try { audio.play(); } catch(e){} }
+    const t = ((ts - start) / 1000) % D;
+    window.SwordAnim.drawFrame(ctx, t);
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+</script>
+</body>
+</html>
